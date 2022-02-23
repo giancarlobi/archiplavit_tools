@@ -3,6 +3,7 @@
         "type": "@type",
         "id": "@id",
         "HTML": { "@id": "rdf:HTML" },
+        "@vocab": "https://archiplavit.to.cnr.it/",
         "plavit": "https://archiplavit.to.cnr.it/",
         "accession_number": { "@id": "plavit:accession_number"}
         "link_to_other_sites": { "@id": "plavit:link_to_other_sites"}
