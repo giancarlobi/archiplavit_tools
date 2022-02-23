@@ -46,5 +46,5 @@
         "lytic_cicle": { "@id": "plavit:lytic_cicle", "@type": "@id"},
         "genome_integration": { "@id": "plavit:genome_integration", "@type": "@id"},
         "remarks": { "@id": "plavit:remarks", "@type": "@id"}        
-    },
+    }
 }
