@@ -1,0 +1,50 @@
+{
+    "@context":  {
+        "type": "@type",
+        "id": "@id",
+        "HTML": { "@id": "rdf:HTML" },
+        "plavit": "https://archiplavit.to.cnr.it/",
+        "accession_number": { "@id": "plavit:accession_number"}
+        "link_to_other_sites": { "@id": "plavit:link_to_other_sites"}
+        "present_in_eva_global": { "@id": "plavit:present_in_eva_global"}
+        "present_in_mirri": { "@id": "plavit:present_in_mirri"}
+        "other_denomination": { "@id": "plavit:other_denomination"}
+        "form_of_supply": { "@id": "plavit:form_of_supply"}
+        "restrictions_on_use": { "@id": "plavit:restrictions_on_use"}
+        "nagoya_protocol": { "@id": "plavit:nagoya_protocol"}
+        "strain_from_a_registered_collection": { "@id": "plavit:strain_from_a_registered_collection"}
+        "risk_group": { "@id": "plavit:risk_group"}
+        "quarantine_in_europe": { "@id": "plavit:quarantine_in_europe"}
+        "storage_conditions": { "@id": "plavit:storage_conditions"}
+        "propagation_host": { "@id": "plavit:propagation_host"}
+        "species_name": { "@id": "plavit:species_name"}
+        "species_abbreviation": { "@id": "plavit:species_abbreviation"}
+        "former_species_name": { "@id": "plavit:former_species_name"}
+        "pathotype_serotype_type": { "@id": "plavit:pathotype_serotype_type"}
+        "reference_isolate": { "@id": "plavit:reference_isolate"}
+        "identification_technique": { "@id": "plavit:identification_technique"}
+        "gmo": { "@id": "plavit:gmo"}
+        "gmo_information": { "@id": "plavit:gmo_information"}
+        "mutant_information": { "@id": "plavit:mutant_information"}
+        "gene_sequences_and_accession_numbers": { "@id": "plavit:gene_sequences_and_accession_numbers"}
+        "isolation_host": { "@id": "plavit:isolation_host"}
+        "cultivar": { "@id": "plavit:cultivar"}
+        "geographic_origin": { "@id": "plavit:geographic_origin"}
+        "geographic_origin_coordinates": { "@id": "plavit:geographic_origin_coordinates"}
+        "country": { "@id": "plavit:country"}
+        "isolate_literature": { "@id": "plavit:isolate_literature"}
+        "collected_by_isolated_by": { "@id": "plavit:collected_by_isolated_by"}
+        "date_of_collection": { "@id": "plavit:date_of_collection"}
+        "date_of_inclusion_in_the_catalogue": { "@id": "plavit:date_of_inclusion_in_the_catalogue"}
+        "depositor": { "@id": "plavit:depositor"}
+        "date_of_deposit": { "@id": "plavit:date_of_deposit"}
+        "pathogenicity": { "@id": "plavit:pathogenicity"}
+        "symptomatology_on_isolation_host": { "@id": "plavit:symptomatology_on_isolation_host"}
+        "transmission_by": { "@id": "plavit:transmission_by"}
+        "infectivity_tested": { "@id": "plavit:infectivity_tested"}
+        "contamination": { "@id": "plavit:contamination"}
+        "lytic_cicle": { "@id": "plavit:lytic_cicle"}
+        "genome_integration": { "@id": "plavit:genome_integration"}
+        "remarks": { "@id": "plavit:remarks"}        
+    }
+}
