@@ -4,6 +4,7 @@
         "id": "@id",
         "HTML": { "@id": "rdf:HTML" },
         "plavit": "https://archiplavit.to.cnr.it/",
-        "my_custom_key": { "@id": "plavit:my_custom_key", "@type": "@id"}
+        "my_custom_key": { "@id": "plavit:my_custom_key", "@type": "@id"},
+        "my_custom_key_2": { "@id": "plavit:my_custom_key_2", "@type": "@id"}
     }
 }
