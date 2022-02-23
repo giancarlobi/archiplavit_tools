@@ -1,0 +1,10 @@
+{
+    "@context":  {
+       "type": "@type",
+        "id": "@id",
+        "HTML": { "@id": "rdf:HTML" },
+        "@vocab": "http://schema.org/",
+        "schema": "http://schema.org/",
+        "image": { "@id": "schema:image", "@type": "@id"},
+       }
+    }
