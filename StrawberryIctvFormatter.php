@@ -1,0 +1,146 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: dpino
+ * Date: 9/18/18
+ * Time: 8:56 PM
+ */
+
+namespace Drupal\format_strawberryfield\Plugin\Field\FieldFormatter;
+
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\strawberryfield\Tools\Ocfl\OcflHelper;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Cache\Cache;
+use Drupal\format_strawberryfield\Tools\IiifHelper;
+use Drupal\strawberryfield\Tools\StrawberryfieldJsonHelper;
+use Drupal\Core\StreamWrapper\StreamWrapperManager;
+
+/**
+ * Simplistic Strawberry Field formatter.
+ *
+ * @FieldFormatter(
+ *   id = "strawberry_ictv_formatter",
+ *   label = @Translation("Strawberry Field Simple ICTV Formatter"),
+ *   class = "\Drupal\format_strawberryfield\Plugin\Field\FieldFormatter\StrawberryIctvFormatter",
+ *   field_types = {
+ *     "strawberryfield_field"
+ *   },
+ *   quickedit = {
+ *     "editor" = "disabled"
+ *   }
+ * )
+ */
+class StrawberryIctvFormatter extends StrawberryBaseFormatter {
+  
+  /**
+   * {@inheritdoc}
+   */
+  public static function defaultSettings() {
+    return
+      parent::defaultSettings() + [
+      'json_key_source' => 'species_name',
+      'ictv_prefix_url' => 'https://talk.ictvonline.org/TaxonomyHistoryWebSvc.ashx?action_code=get_taxonomy_history&taxnode_id=',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsForm(array $form, FormStateInterface $form_state) {
+    return [
+        'json_key_source' => [
+          '#type' => 'textfield',
+          '#title' => t('JSON Key from where to fetch ICTV species URL'),
+          '#default_value' => $this->getSetting('json_key_source'),
+          '#required' => TRUE,
+        ],
+        'ictv_prefix_url' => [
+          '#type' => 'textfield',
+          '#title' => $this->t('URL prefix to add species code to for get XHTML'),
+          '#default_value' => $this->getSetting('ictv_prefix_url'),
+          '#required' => TRUE,
+        ]
+      ] + parent::settingsForm($form, $form_state);
+  }
+
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsSummary() {
+    $summary = parent::settingsSummary();
+    if ($this->getSetting('json_key_source')) {
+      $summary[] = $this->t('ICTV species URL fetched from JSON "%json_key_source" key', [
+        '%json_key_source' => $this->getSetting('json_key_source'),
+      ]);
+    }
+    if ($this->getSetting('ictv_prefix_url')) {
+      $summary[] = $this->t('Species code will be added to "%ictv_prefix_url"', [
+        '%ictv_prefix_url' => $this->getSetting('ictv_prefix_url'),
+      ]);
+    }
+
+    return $summary;
+  }
+
+
+  /**
+   * {@inheritdoc}
+   */
+  public function viewElements(FieldItemListInterface $items, $langcode) {
+    $elements = [];
+
+    /* @var \Drupal\file\FileInterface[] $files */
+    // Fixing the key to extract while coding to 'Media'
+    $key_species = $this->getSetting('json_key_source');
+    $ictv_prefix_url = $this->getSetting('ictv_prefix_url');
+
+
+    $nodeuuid = $items->getEntity()->uuid();
+    $nodeid = $items->getEntity()->id();
+    $fieldname = $items->getName();
+    foreach ($items as $delta => $item) {
+      $main_property = $item->getFieldDefinition()->getFieldStorageDefinition()->getMainPropertyName();
+      $value = $item->{$main_property};
+
+      if (empty($value)) {
+        continue;
+      }
+
+      $jsondata = json_decode($item->value, true);
+      // @TODO use future flatversion precomputed at field level as a property
+      $json_error = json_last_error();
+      if ($json_error != JSON_ERROR_NONE) {
+        $message= $this->t('We could had an issue decoding as JSON your metadata for node @id, field @field',
+          [
+            '@id' => $nodeid,
+            '@field' => $items->getName(),
+          ]);
+        return $elements[$delta] = ['#markup' => $this->t('ERROR')];
+      }
+
+      	if (isset($jsondata[$key_species])) {
+		$ictv_json_url = $jsondata[$key_species];
+		$ictv_id = substr($ictv_json_url, -9);
+		$ictv_url = $ictv_prefix_url.$ictv_id;
+		$ictvpage = file_get_contents($ictv_url);
+		$ictvxml = simplexml_load_string($ictvpage);
+		$ictv_taxon_name = $ictvxml['taxon_name'];
+		$ictv_lineage = $ictvxml['taxa_lineage'];
+		$ictv_taxon_name = str_replace('i>', 'strong>', $ictv_taxon_name);
+                $ictv_lineage = str_replace('i>', 'strong>', $ictv_lineage);
+                $ictv_lineage = str_replace('->', '<BR>', $ictv_lineage);
+		$elements[$delta] = ['#markup' => 'Species name: <a href="'.$ictv_json_url.'" target="_blank" title="Browse ICTV Taxonomy History">'.$ictv_taxon_name.'</a><BR>Lineage:<BR>'.$ictv_lineage];
+      	} else {
+		$elements[$delta] = ['#markup' => 'No ICTV reference'];
+      	}
+
+      // Get rid of empty #attributes key to avoid render error
+      if (isset( $elements[$delta]["#attributes"]) && empty( $elements[$delta]["#attributes"])) {
+        unset($elements[$delta]["#attributes"]);
+      }
+    }
+    return $elements;
+  }
+}
