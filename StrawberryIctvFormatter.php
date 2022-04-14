@@ -39,8 +39,9 @@ class StrawberryIctvFormatter extends StrawberryBaseFormatter {
   public static function defaultSettings() {
     return
       parent::defaultSettings() + [
-      'json_key_source' => 'species_name',
-      'ictv_prefix_url' => 'https://talk.ictvonline.org/TaxonomyHistoryWebSvc.ashx?action_code=get_taxonomy_history&taxnode_id=',
+      'json_key_source' => 'virus_species_id',
+      'ictv_prefix_url' => 'https://talk.ictvonline.org/taxonomy/p/taxonomy-history?taxnode_id=',
+      'ictv_xhtml_prefix_url' => 'https://talk.ictvonline.org/TaxonomyHistoryWebSvc.ashx?action_code=get_taxonomy_history&taxnode_id=',
     ];
   }
 
@@ -51,14 +52,20 @@ class StrawberryIctvFormatter extends StrawberryBaseFormatter {
     return [
         'json_key_source' => [
           '#type' => 'textfield',
-          '#title' => t('JSON Key from where to fetch ICTV species URL'),
+          '#title' => t('JSON Key from where to fetch ICTV virus species ID'),
           '#default_value' => $this->getSetting('json_key_source'),
           '#required' => TRUE,
         ],
         'ictv_prefix_url' => [
           '#type' => 'textfield',
-          '#title' => $this->t('URL prefix to add species code to for get XHTML'),
+          '#title' => $this->t('URL prefix to add species code to for get ICTV webpage'),
           '#default_value' => $this->getSetting('ictv_prefix_url'),
+          '#required' => TRUE,
+        ],
+        'ictv_xhtml_prefix_url' => [
+          '#type' => 'textfield',
+          '#title' => $this->t('URL prefix to add species code to for get ICTV XHTML'),
+          '#default_value' => $this->getSetting('ictv_xhtml_prefix_url'),
           '#required' => TRUE,
         ]
       ] + parent::settingsForm($form, $form_state);
@@ -76,8 +83,13 @@ class StrawberryIctvFormatter extends StrawberryBaseFormatter {
       ]);
     }
     if ($this->getSetting('ictv_prefix_url')) {
-      $summary[] = $this->t('Species code will be added to "%ictv_prefix_url"', [
+      $summary[] = $this->t('Species code will be added to "%ictv_prefix_url" for ICTV webpage', [
         '%ictv_prefix_url' => $this->getSetting('ictv_prefix_url'),
+      ]);
+    }
+    if ($this->getSetting('ictv_xhtml_prefix_url')) {
+      $summary[] = $this->t('Species code will be added to "%ictv_xhtml_prefix_url" for ICTV XHTML', [
+        '%ictv_xhtml_prefix_url' => $this->getSetting('ictv_xhtml_prefix_url'),
       ]);
     }
 
@@ -95,6 +107,7 @@ class StrawberryIctvFormatter extends StrawberryBaseFormatter {
     // Fixing the key to extract while coding to 'Media'
     $key_species = $this->getSetting('json_key_source');
     $ictv_prefix_url = $this->getSetting('ictv_prefix_url');
+    $ictv_xhtml_prefix_url = $this->getSetting('ictv_xhtml_prefix_url');
 
 
     $nodeuuid = $items->getEntity()->uuid();
@@ -121,17 +134,19 @@ class StrawberryIctvFormatter extends StrawberryBaseFormatter {
       }
 
       	if (isset($jsondata[$key_species])) {
-		$ictv_json_url = $jsondata[$key_species];
-		$ictv_id = substr($ictv_json_url, -9);
-		$ictv_url = $ictv_prefix_url.$ictv_id;
-		$ictvpage = file_get_contents($ictv_url);
-		$ictvxml = simplexml_load_string($ictvpage);
+		//$ictv_json_url = $jsondata[$key_species];
+		//$ictv_id = substr($ictv_json_url, -9);
+		$ictv_id = $jsondata[$key_species];
+		$ictv_page_url = $ictv_prefix_url.$ictv_id;
+		$ictv_xhtml_url = $ictv_xhtml_prefix_url.$ictv_id;
+		$ictvxhtml = file_get_contents($ictv_xhtml_url);
+		$ictvxml = simplexml_load_string($ictvxhtml);
 		$ictv_taxon_name = $ictvxml['taxon_name'];
 		$ictv_lineage = $ictvxml['taxa_lineage'];
 		$ictv_taxon_name = str_replace('i>', 'strong>', $ictv_taxon_name);
                 $ictv_lineage = str_replace('i>', 'strong>', $ictv_lineage);
                 $ictv_lineage = str_replace('->', '<BR>', $ictv_lineage);
-		$elements[$delta] = ['#markup' => 'Species name: <a href="'.$ictv_json_url.'" target="_blank" title="Browse ICTV Taxonomy History">'.$ictv_taxon_name.'</a><BR>Lineage:<BR>'.$ictv_lineage];
+		$elements[$delta] = ['#markup' => 'Species name: <a href="'.$ictv_page_url.'" target="_blank" title="Browse ICTV Taxonomy History">'.$ictv_taxon_name.'</a><BR>Lineage:<BR>'.$ictv_lineage];
       	} else {
 		$elements[$delta] = ['#markup' => 'No ICTV reference'];
       	}
