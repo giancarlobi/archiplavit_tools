@@ -1,5 +1,5 @@
 {
-  "$id": "https://susmirri-cloud.di.unito.it/json-schema/v1.1/strains.json",
+  "$id": "https://archiplavit.to.cnr.it/sites/default/files/susmirri_virus_schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Collection",
   "description": "Collection information and the its set of strains",
