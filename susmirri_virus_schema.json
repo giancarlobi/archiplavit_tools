@@ -2,10 +2,10 @@
   "$id": "https://archiplavit.to.cnr.it/sites/default/files/susmirri_virus_schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Collection",
-  "description": "Collection information and the its set of strains",
+  "description": "Collection information and the its set of isolates",
   "type": "object",
   "additionalProperties": false,
-  "required": [ "acronym", "contactName", "contactEmail", "strains" ],
+  "required": [ "acronym", "contactName", "contactEmail", "isolates" ],
   "properties": {
     "acronym": {
       "description": "Collection identifier.",
@@ -37,166 +37,338 @@
       "type": [ "string", "null" ],
       "pattern": "^(?! ).+$"
     },
-    "strains": {
-      "description": "List of strains possesed by the collection.",
+    "isolates": {
+      "description": "List of isolates possesed by the collection.",
       "type": "array",
-      "items": { "$ref": "#/$defs/Strain" }
+      "items": { "$ref": "#/$defs/Isolate" }
     }
   },
 
+
   "$defs": {
-    "Strain": {
-      "title": "Strain",
-      "description": "The information about the strain characteristics. The mandatory fields are {ccAccessionNumber, taxonName, organismType}.",
+    "Isolate": {
+      "title": "Isolate",
+      "description": "The information about the isolate characteristics. The mandatory fields are { 'accession_number', 'form_of_supply', 'restrictions_on_use', 'nagoya_protocol', 'risk_group', 'quarantine_in_europe', 'species_name', 'virus_name', 'species_abbreviation', 'reference_isolate', 'gmo', 'country', 'date_of_collection' }.",
       "type": "object",
       "additionalProperties": false,
-      "required": [ "ccAccessionNumber", "taxonName", "organismType" ],
+      "required": [ "accession_number", "form_of_supply", "restrictions_on_use", "nagoya_protocol", "risk_group", "quarantine_in_europe", "species_name", "virus_name", "species_abbreviation", "reference_isolate", "gmo", "country", "date_of_collection" ],
+
       "properties": {
-        "ccAccessionNumber": {
-          "description": "Collection accession number.",
-          "type": "string",
-          "pattern": "^[A-Za-z0-9]+$"
+        "accession_number": {
+		"description": "Collection accession number.",
+          	"type": "string",
+          	"pattern": "^[A-Za-z0-9/]+$"
         },
-        "otherDenominations": {
-          "description": "Unofficial names that are often used for the strain, e.g. in publications, or a name given to the strain by the isolator before its deposit at the collection.",
-          "type": [ "array", "null" ],
-	  "uniqueItems": true,
-	  "minItems": 1,
-	  "items": {
-            "type": "string",
-	    "pattern": "^(?! ).+"
-	  }
+        "link_to_other_sites": {
+          	"description": "URLs of extended descriptions of the virus isolate in other information systems. May be used in particular for connecting to the EVA-GLOBAL portal.",
+          	"type": [ "array", "null" ],
+	  	"uniqueItems": true,
+	  	"minItems": 1,
+	  	"items": {
+			"type": "string",
+			"pattern": "^(?! ).+$"
+	  	}
         },
-        "literature": {
-          "description": "Recommended readings related to this strain, identifier of the literature item.",
-          "type": [ "array", "null" ],
-	  "uniqueItems": true,
-	  "minItems": 1,
-	  "items": {
-            "type": "string",
-	    "pattern": "^(?! ).*[^ ]$"
-	  }
-        },
-
-
-
-        "taxonName": {
-          "description": "The taxon name of the strain.",
-          "type": "string",
-	  "pattern": "^(?! ).+$"
-        },
-        "organismType": {
-          "description": "The type of the resource.",
-          "type": "string",
-	  "enum": [ "Algae", "Archaea", "Bacteria", "Cyanobacteria", "Filamentous Fungi", "Yeasts", "Microalgae" ]
-        },
-        "riskGroup": {
-          "description": "Risk group according to EU Directive 2000/54/EC and its amendments and corrections.",
-          "type": [ "integer", "null" ],
-	  "minimum": 1,
-	  "maximum": 4
-        },
-        "dualUse": {
-          "description": "Specify whether the strain has the potential for a harmful use according to EU Council Regulation 2000/1334/CE and its amendments and corrections.",
-	  "oneOf": [
+        "present_in_eva_global": {
+          	"description": "Specify...",
+	  	"oneOf": [
             {"type": "null"},
             {"type": "string", "enum":["Yes", "No"]}
-          ]
+          	]
         },
-        "euQuarantine": {
-          "description": "Specify whether the strain is subject to quarantine according to European Directive 2000/29/CE and its amendments and corrections. The list of quarantine organisms is available in the Commission Implementing Regulation (EU) 2019/2072.",
-	  "oneOf": [
+
+        "present_in_mirri": {
+          	"description": "Specify...",
+	  	"oneOf": [
             {"type": "null"},
             {"type": "string", "enum":["Yes", "No"]}
-          ]
+          	]
+        },		
+        "other_denomination": {
+          	"description": "Unofficial names that have been or still are used for the strain, e.g. in publications, or a name given to the strain by the isolator before its deposit at the collection. May also include reference numbers/codes for those isolates whose accession number have been redefined according to the guidelines for the “Accession number”.",
+          	"type": [ "array", "null" ],
+	  	"uniqueItems": true,
+	  	"minItems": 1,
+	  	"items": {
+           		"type": "string",
+	    		"pattern": "^(?! ).+$"
+	  	}
         },
-        "sexualState": {
-          "description": "Information on strain sexual state / mating type, for relevant resource types.",
-	  "oneOf": [
+        "form_of_supply": {
+          	"description": "The forms of supply of the strain to users. Allowed values: Agar, Cryo, Dry Ice, In vivo, Liquid Culture Medium, Lyo, Oil, Water.",
+          	"type": "string",
+	  	"enum": [ "Agar", "Cryo", "Dry Ice", "In vivo", "Liquid Culture Medium", "Lyo", "Oil", "Water" ]
+        },
+
+        "restrictions_on_use": {
+          	"description": "One of the following values: 1 (no restrictions apply), 2 (for research use only), 3 (for commercial development a special agreement is requested).",
+          	"type": [ "integer" ],
+	  	"minimum": 1,
+	  	"maximum": 3
+        },
+        "nagoya_protocol": {
+          	"description": "One of the following: 1 (“No known restrictions under the Nagoya protocol”), 2 (“Documents providing proof of legal access and terms of use available at the collection”), 3 (“Strain probably in scope, please contact the Culture Collection”).",
+          	"type": [ "integer" ],
+	  	"minimum": 1,
+	  	"maximum": 3
+        },
+        "strain_from_a_registered_collection": {
+          	"description": "Specify...",
+	  	"oneOf": [
             {"type": "null"},
-            {
-              "type": "string",
-              "enum":["Mata","Matalpha","Mata/Matalpha","Mata","Matb","Mata/Matb","MTLa","MTLalpha","MTLa/MTLalpha","MAT1-1","MAT1-2","MAT1","MAT2","MT+","MT-"]
-	    }
-          ]
+            {"type": "string", "enum":["Yes", "No"]}
+          	]
+        },	
+
+        "risk_group": {
+          	"description": "Risk group according to EU Directive 2000/54/EC and its amendments and corrections.",
+          	"type": [ "integer" ],
+	  	"minimum": 1,
+	  	"maximum": 4
+        },
+        "quarantine_in_europe": {
+          	"description": "Specify whether the strain is subject to quarantine according to European Directive 2000/29/CE and its amendments and corrections. The list of quarantine organisms is available in the Commission Implementing Regulation (EU) 2019/2072.",
+        	"type": "string",
+        	"enum": [ "Yes", "No" ]
+        },
+        "storage_conditions": {
+          	"description": "Specify...",
+          	"type": [ "array", "null" ],
+	  	"uniqueItems": true,
+	  	"minItems": 1,
+	  	"items": {
+	  		"type": "string",
+       		"enum": [ "Lyo", "Liquid nitrogen", "-80" ]
+	  	}
+        },
+        "propagation_host": {
+          	"description": "The scientific name of the species, according to the corresponding reference taxonomy.",
+          	"type": [ "string", "null" ],
+	  	"pattern": "^(?! ).+$"
+        },
+        "species_name": {
+          	"description": "Species name, as taken from the authoritative nomenclature reference of the International Committee for Virus Taxonomy ICVT.",
+          	"type": "string",
+	  	"pattern": "^(?! ).+$"
+        },
+        "virus_name": {
+          	"description": "Virus name, as taken from the authoritative nomenclature reference of the International Committee for Virus Taxonomy ICVT.",
+          	"type": "string",
+	  	"pattern": "^(?! ).+$"
+        },
+        "species_abbreviation": {
+          	"description": "Virus abbreviations are short terms, often acronyms, used in substitution of the species name. They are not unique: the same abbreviation may be used for more than one virus.",
+          	"type": "string",
+	  	"pattern": "^(?! ).+$"
         },
 
+        "former_species_name": {
+          	"description": "Other species names, old names, synonymous not officially accepted.",
+          	"type": [ "array", "null" ],
+	  	"uniqueItems": true,
+	  	"minItems": 1,
+	  	"items": {
+	  		"type": "string",
+       		"pattern": "^(?! ).+$"
+	  	}
+        },
+        "pathotype_serotype_type": {
+          	"description": "This information must include a prefix ('Pathotype: ', 'Serotype: ' or 'Strain: ') followed by the pathotype, serotype or strain designation.",
+          	"type": [ "array", "null" ],
+	  	"uniqueItems": true,
+	  	"minItems": 1,
+	  	"items": {
+	  		"type": "string",
+       		"pattern": "^(?! ).+$"
+	  	}
+        },
+        "reference_isolate": {
+          	"description": "Specify ...",
+        	"type": "string",
+        	"enum": [ "Yes", "No" ]
+        },
 
-
+        "identification_technique": {
+          	"description": "Specify....",
+          	"type": [ "array", "null" ],
+	  	"uniqueItems": true,
+	  	"minItems": 1,
+	  	"items": {
+	  		"type": "string",
+       		"enum": [ "ELISA", "Western blot", "Immuno blot", "LAMP", "Reverse Transcriptase PCR", "PCR", "Sanger sequencing", "NGS", "Bioassay", "Electron microscopy" ]
+	  	}
+        },
         "gmo": {
-          "description": "Specify whether the strain is a Genetically Modified Organism (GMO).",
-	  "oneOf": [
+          	"description": "Specify ...",
+        	"type": "string",
+        	"enum": [ "Yes", "No" ]
+        },
+        "gmo_information": {
+          	"description": "Specify ...",
+          	"type": [ "string", "null" ],
+	  	"pattern": "^(?! ).+$"
+        },
+        "mutant_information": {
+          	"description": "Specify ...",
+          	"type": [ "string", "null" ],
+	  	"pattern": "^(?! ).+$"
+        },
+
+        "gene_sequences_and_accession_numbers": {
+          	"description": "GenBank accession number / sequence",
+          	"type": [ "array", "null" ],
+	  	"uniqueItems": true,
+	  	"minItems": 1,
+	  	"items": {
+	  		"type": "string",
+       		"pattern": "^(?! ).+$"
+	  	}
+        },
+        "isolation_host": {
+          	"description": "All values of the reference taxonomy (link to an official web site for plant). In case of phages ?",
+          	"type": [ "array", "null" ],
+	  	"uniqueItems": true,
+	  	"minItems": 1,
+	  	"items": {
+	  		"type": "string",
+       		"pattern": "^(?! ).+$"
+	  	}
+        },
+
+        "cultivar": {
+          	"description": "Specify ...",
+          	"type": [ "array", "null" ],
+	  	"uniqueItems": true,
+	  	"minItems": 1,
+	  	"items": {
+	  		"type": "string",
+       		"pattern": "^(?! ).+$"
+	  	}
+        },
+        "geographic_origin": {
+          	"description": "Specify ...",
+          	"type": [ "string", "null" ],
+	  	"pattern": "^(?! ).+$"
+        },
+        "geographic_origin_coordinates": {
+          	"description": "Specify ...",
+          	"type": [ "string", "null" ],
+	  	"pattern": "^(?! ).+$"
+        },
+
+        "country": {
+          	"description": "This information must be expressed by using the ISO-3166 standard for country codes. The preferred set is ISO 3166-1 alpha-2 (two letters code), but ISO 3166-1 alpha-3 (three letters code) is also accepted. Former country codes must follow standard’s part three ISO 3166-3 (four letters code). Only one code can be included.",
+          	"type": "string",
+	  	"pattern": "^(?! ).+$"
+        },
+        "isolate_literature": {
+          	"description": "The reference table must include all bibliographic fields used for citing a paper, a book, a patent, or a document available on-line, including, e.g., authors, title, journal, volume, issue, pages, editors, publishers, as separate fields. For publications indexed by Pubmed or having an official DOI number, collections must include in the reference table the respective identifiers, PMID and DOI, instead of all bibliographic fields.",
+          	"type": [ "array", "null" ],
+	  	"uniqueItems": true,
+	  	"minItems": 1,
+	  	"items": {
+	  		"type": "string",
+       		"pattern": "^(?! ).+$"
+	  	}
+        },
+
+        "collected_by_isolated_by": {
+          	"description": "Name, institute and town / country of the collector-isolator",
+          	"type": [ "array", "null" ],
+	  	"uniqueItems": true,
+	  	"minItems": 1,
+	  	"items": {
+	  		"type": "string",
+       		"pattern": "^(?! ).+$"
+	  	}
+        },
+        "date_of_collection": {
+          	"description": "Specify ...",
+          	"type": "string",
+	  	"pattern": "^(?! ).+$"
+        },
+        "date_of_inclusion_in_the_catalogue": {
+          	"description": "Specify ...",
+          	"type": [ "string", "null" ],
+	  	"pattern": "^(?! ).+$"
+        },
+        "depositor": {
+          	"description": "Specify ...",
+          	"type": [ "string", "null" ],
+	  	"pattern": "^(?! ).+$"
+        },
+
+        "date_of_deposit": {
+          	"description": "Specify ...",
+          	"type": [ "string", "null" ],
+	  	"pattern": "^(?! ).+$"
+        },
+        "pathogenicity": {
+          	"description": "Specify....",
+          	"type": [ "array", "null" ],
+	  	"uniqueItems": true,
+	  	"minItems": 1,
+	  	"items": {
+	  		"type": "string",
+       		"enum": [ "Pathogen for Humans", "Pathogen for Animals", "Pathogen for Plants", "Pathogen for Bacteria", "Pathogen for Fungi", "Pathogen for other organisms", "Not pathogen" ]
+	  	}
+        },
+        "symptomatology_on_isolation_host": {
+          	"description": "Specify ...",
+          	"type": [ "string", "null" ],
+	  	"pattern": "^(?! ).+$"
+        },
+
+        "transmission_by": {
+          	"description": "Specify....",
+          	"type": [ "array", "null" ],
+	  	"uniqueItems": true,
+	  	"minItems": 1,
+	  	"items": {
+	  		"type": "string",
+       		"enum": [ "contact", "insect", "grafting", "nematodes", "fungi", "air", "pollen", "sexual transmission", "food", "other" ]
+	  	}
+        },
+        "infectivity_tested": {
+          	"description": "Specify...",
+	  	"oneOf": [
             {"type": "null"},
             {"type": "string", "enum":["Yes", "No"]}
-          ]
+          	]
         },
-        "gmoConstructionInfo": {
-          "description": "Information on the construction of the GMO.",
-          "type": [ "string", "null" ],
-	  "pattern": "^(?! ).+$"
-        },
-
-
-
-        "nagoyaConditions": {
-          "description": "Situation of the strain in relation to the Nagoya protocol. One of the allowed values: 1 ('No known restrictions under the Nagoya protocol'), 2 ('Documents providing proof of legal access and terms of use available at the collection'), 3 ('Strain probably in scope, please contact the culture collection').",
-          "type": [ "integer", "null" ],
-	  "minimum": 1,
-	  "maximum": 3
-        },
-        "useRestrictions": {
-          "description": "Report if the strain can be used for commercial development or not: 1 (no restrictions apply), 2 (for research use only), 3 (for commercial development a special agreement is requested).",
-          "type": [ "integer", "null" ],
-	  "minimum": 1,
-	  "maximum": 3
-        },
-        "formOfSupply": {
-          "description": "The list of forms of supply of the strain by the collection.",
-          "type": [ "array", "null" ],
-	  "uniqueItems": true,
-	  "minItems": 1,
-	  "items": {
-            "type": "string",
-	     "enum": [ "Agar", "Cryo", "Dry Ice", "Liquid Culture Medium", "Lyo", "Oil", "Water" ]
-          }
+        "contamination": {
+          	"description": "Specify...",
+	  	"oneOf": [
+            {"type": "null"},
+            {"type": "string", "enum":["Yes", "No"]}
+          	]
         },
 
-
-
-        "recommendedGrowthMedia": {
-          "description": "Recommended mediums for growth.",
-          "type": [ "array", "null" ],
-	  "uniqueItems": true,
-	  "minItems": 1,
-          "items": {
-             "type": "string",
-	     "pattern": "^(?! ).+"
-          }
+        "lytic_cicle": {
+          	"description": "Specify...",
+	  	"oneOf": [
+            {"type": "null"},
+            {"type": "string", "enum":["Yes", "No"]}
+          	]
         },
-        "recommendedGrowthTemperature": {
-          "description": "The recommended growing temperature for the strain. The temperature is expressed in Celsius degrees.",
-          "type": [ "integer", "null" ]
+        "genome_integration": {
+          	"description": "Specify...",
+	  	"oneOf": [
+            {"type": "null"},
+            {"type": "string", "enum":["Yes", "No"]}
+          	]
         },
-        "testedGrowthTemperatureRange": {
-          "description": "The lowest and the highest temperature at which the strain was tested for growing. Temperatures are expressed in Celsius degrees.",
-          "type": [ "array", "null" ],
-	  "minItems": 2,
-	  "maxItems": 2,
-          "items": {
-             "type": "integer"
-          }
-        },
-
-
-
-        "typeStrain": {
-          "description": "Type Strain",
-          "type": [ "string", "null" ],
-          "enum": ["Yes", "No"]
+        "remarks": {
+          	"description": "Specify ...",
+          	"type": [ "array", "null" ],
+	  	"uniqueItems": true,
+	  	"minItems": 1,
+	  	"items": {
+	  		"type": "string",
+       		"pattern": "^(?! ).+$"
+	  	}
         }
       }
     }
   }
 }
-
-
