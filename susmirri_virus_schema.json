@@ -240,16 +240,15 @@
                     "pattern": "^(?! ).+$"
                 },
                 "organism_type": {
-                    "description": "...",
+                    "description": "The type of the resource. In PLAVIT values allowed are: 'virus', 'viroid'.",
                     "type": "string",
                     "enum": [
                         "virus",
-                        "viroid",
-                        "phytoplasma"
+                        "viroid"
                     ]
                 },
                 "species_name": {
-                    "description": "Species name, as taken from the authoritative nomenclature reference of the International Committee on Taxonomy of Viruses, ICTV.",
+                    "description": "Species name, as taken from the authoritative nomenclature reference of the International Committee on Taxonomy of Viruses, ICTV. If species is not found in the list, write 'not yet classified by ICTV'",
                     "type": "string",
                     "pattern": "^(?! ).+$"
                 },
@@ -418,8 +417,8 @@
                         "pattern": "^(?! ).+$"
                     }
                 },
-                "collected_by_isolated_by": {
-                    "description": "Name, institute and town / country of the collector-isolator",
+                "collected_by": {
+                    "description": "Name, institute and town / country of the collector.",
                     "type": [
                         "array",
                         "null"
@@ -437,7 +436,7 @@
                     "pattern": "^(?! ).+$"
                 },
                 "isolated_by": {
-                    "description": "...",
+                    "description": "Name, institute and town/country of the isolator.",
                     "type": "string",
                     "pattern": "^(?! ).+$"
                 },
