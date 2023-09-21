@@ -1,374 +1,597 @@
 {
-  "$id": "https://archiplavit.to.cnr.it/sites/default/files/susmirri_virus_schema.json",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Collection",
-  "description": "Collection information and the its set of isolates",
-  "type": "object",
-  "additionalProperties": false,
-  "required": [ "acronym", "contactName", "contactEmail", "isolates" ],
-  "properties": {
-    "acronym": {
-      "description": "Collection identifier.",
-      "type": [ "string" ],
-      "pattern": "^[A-Za-z0-9]+$"
-    },
-    "operativeUnit": {
-      "description": "Operative Unit that own the collection.",
-      "type": [ "string", "null" ],
-      "pattern": "^UO[0-9][0-9]$"
-    },
-    "contactName": {
-      "description": "The name of the person to be contact for the collection.",
-      "type": [ "string", "null" ],
-      "pattern": "^(?! ).+$"
-    },
-    "contactEmail": {
-      "description": "The email of the person to be contact for the collection.",
-      "type": [ "string", "null" ],
-      "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
-    },
-    "institution": {
-      "description": "The institution that own the collection.",
-      "type": [ "string", "null" ],
-      "pattern": "^(?! ).+$"
-    },
-    "description": {
-      "description": "The description of the collection.",
-      "type": [ "string", "null" ],
-      "pattern": "^(?! ).+$"
-    },
-    "isolates": {
-      "description": "List of isolates possesed by the collection.",
-      "type": "array",
-      "items": { "$ref": "#/$defs/Isolate" }
-    }
-  },
-
-
-  "$defs": {
-    "Isolate": {
-      "title": "Isolate",
-      "description": "The information about the isolate characteristics. The mandatory fields are { 'accession_number', 'form_of_supply', 'restrictions_on_use', 'nagoya_protocol', 'risk_group', 'quarantine_in_europe', 'species_name', 'virus_name', 'species_abbreviation', 'reference_isolate', 'gmo', 'country', 'date_of_collection' }.",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [ "accession_number", "form_of_supply", "restrictions_on_use", "nagoya_protocol", "risk_group", "quarantine_in_europe", "species_name", "virus_name", "species_abbreviation", "reference_isolate", "gmo", "country", "date_of_collection" ],
-
-      "properties": {
-        "accession_number": {
-		"description": "Collection accession number.",
-          	"type": "string",
-          	"pattern": "^[A-Za-z0-9/]+$"
+    "$id": "https://archiplavit.to.cnr.it/sites/default/files/susmirri_virus_schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Collection",
+    "description": "Information on the Collection and its set of isolates",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "acronym",
+        "contactName",
+        "contactEmail",
+        "isolates"
+    ],
+    "properties": {
+        "acronym": {
+            "description": "Collection identifier.",
+            "type": [
+                "string"
+            ],
+            "pattern": "^[A-Za-z0-9]+$"
         },
-        "link_to_other_sites": {
-          	"description": "URLs of extended descriptions of the virus isolate in other information systems. May be used in particular for connecting to the EVA-GLOBAL portal.",
-          	"type": [ "array", "null" ],
-	  	"uniqueItems": true,
-	  	"minItems": 1,
-	  	"items": {
-			"type": "string",
-			"pattern": "^(?! ).+$"
-	  	}
+        "operativeUnit": {
+            "description": "Operative Unit that own the collection.",
+            "type": [
+                "string",
+                "null"
+            ],
+            "pattern": "^UO[0-9][0-9]$"
         },
-        "present_in_eva_global": {
-          	"description": "Specify...",
-	  	"oneOf": [
-            {"type": "null"},
-            {"type": "string", "enum":["Yes", "No"]}
-          	]
+        "contactName": {
+            "description": "The name of the person to be contact for the collection.",
+            "type": [
+                "string",
+                "null"
+            ],
+            "pattern": "^(?! ).+$"
         },
-
-        "present_in_mirri": {
-          	"description": "Specify...",
-	  	"oneOf": [
-            {"type": "null"},
-            {"type": "string", "enum":["Yes", "No"]}
-          	]
-        },		
-        "other_denomination": {
-          	"description": "Unofficial names that have been or still are used for the strain, e.g. in publications, or a name given to the strain by the isolator before its deposit at the collection. May also include reference numbers/codes for those isolates whose accession number have been redefined according to the guidelines for the “Accession number”.",
-          	"type": [ "array", "null" ],
-	  	"uniqueItems": true,
-	  	"minItems": 1,
-	  	"items": {
-           		"type": "string",
-	    		"pattern": "^(?! ).+$"
-	  	}
+        "contactEmail": {
+            "description": "The email of the person to be contact for the collection.",
+            "type": [
+                "string",
+                "null"
+            ],
+            "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
         },
-        "form_of_supply": {
-          	"description": "The forms of supply of the strain to users. Allowed values: Agar, Cryo, Dry Ice, In vivo, Liquid Culture Medium, Lyo, Oil, Water.",
-          	"type": "string",
-	  	"enum": [ "Agar", "Cryo", "Dry Ice", "In vivo", "Liquid Culture Medium", "Lyo", "Oil", "Water" ]
+        "institution": {
+            "description": "The institution that own the collection.",
+            "type": [
+                "string",
+                "null"
+            ],
+            "pattern": "^(?! ).+$"
         },
-
-        "restrictions_on_use": {
-          	"description": "One of the following values: 1 (no restrictions apply), 2 (for research use only), 3 (for commercial development a special agreement is requested).",
-          	"type": [ "integer" ],
-	  	"minimum": 1,
-	  	"maximum": 3
+        "description": {
+            "description": "The description of the collection.",
+            "type": [
+                "string",
+                "null"
+            ],
+            "pattern": "^(?! ).+$"
         },
-        "nagoya_protocol": {
-          	"description": "One of the following: 1 (“No known restrictions under the Nagoya protocol”), 2 (“Documents providing proof of legal access and terms of use available at the collection”), 3 (“Strain probably in scope, please contact the Culture Collection”).",
-          	"type": [ "integer" ],
-	  	"minimum": 1,
-	  	"maximum": 3
-        },
-        "strain_from_a_registered_collection": {
-          	"description": "Specify...",
-	  	"oneOf": [
-            {"type": "null"},
-            {"type": "string", "enum":["Yes", "No"]}
-          	]
-        },	
-
-        "risk_group": {
-          	"description": "Risk group according to EU Directive 2000/54/EC and its amendments and corrections.",
-          	"type": [ "integer" ],
-	  	"minimum": 1,
-	  	"maximum": 4
-        },
-        "quarantine_in_europe": {
-          	"description": "Specify whether the strain is subject to quarantine according to European Directive 2000/29/CE and its amendments and corrections. The list of quarantine organisms is available in the Commission Implementing Regulation (EU) 2019/2072.",
-        	"type": "string",
-        	"enum": [ "Yes", "No" ]
-        },
-        "storage_conditions": {
-          	"description": "Specify...",
-          	"type": [ "array", "null" ],
-	  	"uniqueItems": true,
-	  	"minItems": 1,
-	  	"items": {
-	  		"type": "string",
-       		"enum": [ "Lyo", "Liquid nitrogen", "-80" ]
-	  	}
-        },
-        "propagation_host": {
-          	"description": "The scientific name of the species, according to the corresponding reference taxonomy.",
-          	"type": [ "string", "null" ],
-	  	"pattern": "^(?! ).+$"
-        },
-        "species_name": {
-          	"description": "Species name, as taken from the authoritative nomenclature reference of the International Committee for Virus Taxonomy ICVT.",
-          	"type": "string",
-	  	"pattern": "^(?! ).+$"
-        },
-        "virus_name": {
-          	"description": "Virus name, as taken from the authoritative nomenclature reference of the International Committee for Virus Taxonomy ICVT.",
-          	"type": "string",
-	  	"pattern": "^(?! ).+$"
-        },
-        "species_abbreviation": {
-          	"description": "Virus abbreviations are short terms, often acronyms, used in substitution of the species name. They are not unique: the same abbreviation may be used for more than one virus.",
-          	"type": "string",
-	  	"pattern": "^(?! ).+$"
-        },
-
-        "former_species_name": {
-          	"description": "Other species names, old names, synonymous not officially accepted.",
-          	"type": [ "array", "null" ],
-	  	"uniqueItems": true,
-	  	"minItems": 1,
-	  	"items": {
-	  		"type": "string",
-       		"pattern": "^(?! ).+$"
-	  	}
-        },
-        "pathotype_serotype_type": {
-          	"description": "This information must include a prefix ('Pathotype: ', 'Serotype: ' or 'Strain: ') followed by the pathotype, serotype or strain designation.",
-          	"type": [ "array", "null" ],
-	  	"uniqueItems": true,
-	  	"minItems": 1,
-	  	"items": {
-	  		"type": "string",
-       		"pattern": "^(?! ).+$"
-	  	}
-        },
-        "reference_isolate": {
-          	"description": "Specify ...",
-        	"type": "string",
-        	"enum": [ "Yes", "No" ]
-        },
-
-        "identification_technique": {
-          	"description": "Specify....",
-          	"type": [ "array", "null" ],
-	  	"uniqueItems": true,
-	  	"minItems": 1,
-	  	"items": {
-	  		"type": "string",
-       		"enum": [ "ELISA", "Western blot", "Immuno blot", "LAMP", "Reverse Transcriptase PCR", "PCR", "Sanger sequencing", "NGS", "Bioassay", "Electron microscopy" ]
-	  	}
-        },
-        "gmo": {
-          	"description": "Specify ...",
-        	"type": "string",
-        	"enum": [ "Yes", "No" ]
-        },
-        "gmo_information": {
-          	"description": "Specify ...",
-          	"type": [ "string", "null" ],
-	  	"pattern": "^(?! ).+$"
-        },
-        "mutant_information": {
-          	"description": "Specify ...",
-          	"type": [ "string", "null" ],
-	  	"pattern": "^(?! ).+$"
-        },
-
-        "gene_sequences_and_accession_numbers": {
-          	"description": "GenBank accession number / sequence",
-          	"type": [ "array", "null" ],
-	  	"uniqueItems": true,
-	  	"minItems": 1,
-	  	"items": {
-	  		"type": "string",
-       		"pattern": "^(?! ).+$"
-	  	}
-        },
-        "isolation_host": {
-          	"description": "All values of the reference taxonomy (link to an official web site for plant). In case of phages ?",
-          	"type": [ "array", "null" ],
-	  	"uniqueItems": true,
-	  	"minItems": 1,
-	  	"items": {
-	  		"type": "string",
-       		"pattern": "^(?! ).+$"
-	  	}
-        },
-
-        "cultivar": {
-          	"description": "Specify ...",
-          	"type": [ "array", "null" ],
-	  	"uniqueItems": true,
-	  	"minItems": 1,
-	  	"items": {
-	  		"type": "string",
-       		"pattern": "^(?! ).+$"
-	  	}
-        },
-        "geographic_origin": {
-          	"description": "Specify ...",
-          	"type": [ "string", "null" ],
-	  	"pattern": "^(?! ).+$"
-        },
-        "geographic_origin_coordinates": {
-          	"description": "Specify ...",
-          	"type": [ "string", "null" ],
-	  	"pattern": "^(?! ).+$"
-        },
-
-        "country": {
-          	"description": "This information must be expressed by using the ISO-3166 standard for country codes. The preferred set is ISO 3166-1 alpha-2 (two letters code), but ISO 3166-1 alpha-3 (three letters code) is also accepted. Former country codes must follow standard’s part three ISO 3166-3 (four letters code). Only one code can be included.",
-          	"type": "string",
-	  	"pattern": "^(?! ).+$"
-        },
-        "isolate_literature": {
-          	"description": "The reference table must include all bibliographic fields used for citing a paper, a book, a patent, or a document available on-line, including, e.g., authors, title, journal, volume, issue, pages, editors, publishers, as separate fields. For publications indexed by Pubmed or having an official DOI number, collections must include in the reference table the respective identifiers, PMID and DOI, instead of all bibliographic fields.",
-          	"type": [ "array", "null" ],
-	  	"uniqueItems": true,
-	  	"minItems": 1,
-	  	"items": {
-	  		"type": "string",
-       		"pattern": "^(?! ).+$"
-	  	}
-        },
-
-        "collected_by_isolated_by": {
-          	"description": "Name, institute and town / country of the collector-isolator",
-          	"type": [ "array", "null" ],
-	  	"uniqueItems": true,
-	  	"minItems": 1,
-	  	"items": {
-	  		"type": "string",
-       		"pattern": "^(?! ).+$"
-	  	}
-        },
-        "date_of_collection": {
-          	"description": "Specify ...",
-          	"type": "string",
-	  	"pattern": "^(?! ).+$"
-        },
-        "date_of_inclusion_in_the_catalogue": {
-          	"description": "Specify ...",
-          	"type": [ "string", "null" ],
-	  	"pattern": "^(?! ).+$"
-        },
-        "depositor": {
-          	"description": "Specify ...",
-          	"type": [ "string", "null" ],
-	  	"pattern": "^(?! ).+$"
-        },
-
-        "date_of_deposit": {
-          	"description": "Specify ...",
-          	"type": [ "string", "null" ],
-	  	"pattern": "^(?! ).+$"
-        },
-        "pathogenicity": {
-          	"description": "Specify....",
-          	"type": [ "array", "null" ],
-	  	"uniqueItems": true,
-	  	"minItems": 1,
-	  	"items": {
-	  		"type": "string",
-       		"enum": [ "Pathogen for Humans", "Pathogen for Animals", "Pathogen for Plants", "Pathogen for Bacteria", "Pathogen for Fungi", "Pathogen for other organisms", "Not pathogen" ]
-	  	}
-        },
-        "symptomatology_on_isolation_host": {
-          	"description": "Specify ...",
-          	"type": [ "string", "null" ],
-	  	"pattern": "^(?! ).+$"
-        },
-
-        "transmission_by": {
-          	"description": "Specify....",
-          	"type": [ "array", "null" ],
-	  	"uniqueItems": true,
-	  	"minItems": 1,
-	  	"items": {
-	  		"type": "string",
-       		"enum": [ "contact", "insect", "grafting", "nematodes", "fungi", "air", "pollen", "sexual transmission", "food", "other" ]
-	  	}
-        },
-        "infectivity_tested": {
-          	"description": "Specify...",
-	  	"oneOf": [
-            {"type": "null"},
-            {"type": "string", "enum":["Yes", "No"]}
-          	]
-        },
-        "contamination": {
-          	"description": "Specify...",
-	  	"oneOf": [
-            {"type": "null"},
-            {"type": "string", "enum":["Yes", "No"]}
-          	]
-        },
-
-        "lytic_cicle": {
-          	"description": "Specify...",
-	  	"oneOf": [
-            {"type": "null"},
-            {"type": "string", "enum":["Yes", "No"]}
-          	]
-        },
-        "genome_integration": {
-          	"description": "Specify...",
-	  	"oneOf": [
-            {"type": "null"},
-            {"type": "string", "enum":["Yes", "No"]}
-          	]
-        },
-        "remarks": {
-          	"description": "Specify ...",
-          	"type": [ "array", "null" ],
-	  	"uniqueItems": true,
-	  	"minItems": 1,
-	  	"items": {
-	  		"type": "string",
-       		"pattern": "^(?! ).+$"
-	  	}
+        "isolates": {
+            "description": "List of isolates present in the collection.",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/Isolate"
+            }
         }
-      }
+    },
+    "$defs": {
+        "Isolate": {
+            "title": "Isolate",
+            "description": "The information about the isolate characteristics. The mandatory fields are { 'accession_number', 'form_of_supply', 'restrictions_on_use', 'nagoya_protocol', 'risk_group', 'quarantine_in_european_union', 'organism_type', 'species_name', 'virus_name', 'virus_abbreviation', 'reference_isolate', 'gmo', 'country', 'date_of_collection', 'isolated_by' }.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "accession_number",
+                "form_of_supply",
+                "restrictions_on_use",
+                "nagoya_protocol",
+                "risk_group",
+                "quarantine_in_european_union",
+                "organism_type",
+                "species_name",
+                "virus_name",
+                "virus_abbreviation",
+                "reference_isolate",
+                "gmo",
+                "country",
+                "date_of_collection",
+                "isolated_by"
+            ],
+            "properties": {
+                "accession_number": {
+                    "description": "Collection accession number.",
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9/]+$"
+                },
+                "link_to_other_sites": {
+                    "description": "URLs of extended descriptions of the virus isolate in other information systems. May be used in particular for connecting to the EVA-GLOBAL portal.",
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "pattern": "^(?! ).+$"
+                    }
+                },
+                "present_in_eva_global": {
+                    "description": "Presence of isolate in EVA global catalog",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "enum": [
+                                "Yes",
+                                "No"
+                            ]
+                        }
+                    ]
+                },
+                "present_in_mirri": {
+                    "description": "Presence of isolate in MIRRI catalog ",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "enum": [
+                                "Yes",
+                                "No"
+                            ]
+                        }
+                    ]
+                },
+                "other_denomination": {
+                    "description": "Unofficial names that have been or still are used for the isolate before its deposit at the collection. May also include reference numbers/codes for those isolates whose accession number have been redefined according to the guidelines for the “Accession number",
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "pattern": "^(?! ).+$"
+                    }
+                },
+                "form_of_supply": {
+                    "description": "The forms of supply of the isolate to users. Allowed values: Agar, Cryo, Dry Ice, In vivo, Liquid Culture Medium, Lyo, Oil, Water.",
+                    "type": "string",
+                    "enum": [
+                        "Agar",
+                        "Cryo",
+                        "Dry Ice",
+                        "In vivo",
+                        "Liquid Culture Medium",
+                        "Lyo",
+                        "Oil",
+                        "Water"
+                    ]
+                },
+                "restrictions_on_use": {
+                    "description": "One of the following values: 1 (no restrictions apply), 2 (for research use only), 3 (for commercial development a special agreement is requested).",
+                    "type": [
+                        "integer"
+                    ],
+                    "minimum": 1,
+                    "maximum": 3
+                },
+                "nagoya_protocol": {
+                    "description": "One of the following: 1 ('No known restrictions under the Nagoya protocol'), 2 ('Documents providing proof of legal access and terms of use available at the collection'), 3 ('Strain probably in scope, please contact the Culture Collection').",
+                    "type": [
+                        "integer"
+                    ],
+                    "minimum": 1,
+                    "maximum": 3
+                },
+                "strain_from_a_registered_collection": {
+                    "description": "Strain included in the registered CC according to the EU Regulation 511/2014",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "enum": [
+                                "Yes",
+                                "No"
+                            ]
+                        }
+                    ]
+                },
+                "risk_group": {
+                    "description": "Risk group according to EU Directive 2000/54/EC and its amendments and corrections.",
+                    "type": [
+                        "integer"
+                    ],
+                    "minimum": 1,
+                    "maximum": 4
+                },
+                "quarantine_in_european_union": {
+                    "description": "Specify whether the virus is subject to quarantine according to European Directive 2000/29/CE and its amendments and corrections. The list of quarantine organisms is available in the Commission Implementing Regulation (EU) 2019/2072.",
+                    "type": "string",
+                    "enum": [
+                        "Yes",
+                        "No"
+                    ]
+                },
+                "storage_conditions": {
+                    "description": "Conditions by which the isolate is stored by the collection",
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "Lyo",
+                            "Liquid nitrogen",
+                            "-80",
+                            "in vivo"
+                        ]
+                    }
+                },
+                "propagation_host": {
+                    "description": "The scientific name of the species, according to the corresponding reference taxonomy.",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^(?! ).+$"
+                },
+                "organism_type": {
+                    "description": "...",
+                    "type": "string",
+                    "enum": [
+                        "virus",
+                        "viroid",
+                        "phytoplasma"
+                    ]
+                },
+                "species_name": {
+                    "description": "Species name, as taken from the authoritative nomenclature reference of the International Committee on Taxonomy of Viruses, ICTV.",
+                    "type": "string",
+                    "pattern": "^(?! ).+$"
+                },
+                "virus_name": {
+                    "description": "Virus name, as taken from literature",
+                    "type": "string",
+                    "pattern": "^(?! ).+$"
+                },
+                "virus_abbreviation": {
+                    "description": "Virus abbreviations are short terms, often acronyms, used in substitution of the virus name. They are not unique: the same abbreviation may be used for more than one virus.",
+                    "type": "string",
+                    "pattern": "^(?! ).+$"
+                },
+                "other_virus_names": {
+                    "description": "Former virus names, old names, synonymous not officially accepted. This field is particularly important due to the current process of species name revision, where virus taxonomy is adopting binomial Latin names.",
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "pattern": "^(?! ).+$"
+                    }
+                },
+                "pathotype_serotype_type": {
+                    "description": "This information must include a prefix ('Pathotype: ', 'Serotype: ' or 'Strain: ') followed by the pathotype, serotype or strain designation.",
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "pattern": "^(?! ).+$"
+                    }
+                },
+                "reference_isolate": {
+                    "description": "Specify whether it is a reference isolate",
+                    "type": "string",
+                    "enum": [
+                        "Yes",
+                        "No"
+                    ]
+                },
+                "identification_technique": {
+                    "description": "All techniques used for species identification. Allowed values: 'ELISA', 'Western blot', 'Immuno blot', 'LAMP', 'Reverse Transcriptase PCR', 'PCR', 'Sanger sequencing', 'NGS', 'Bioassay', 'Electron microscopy' ",
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "ELISA",
+                            "Western blot",
+                            "Immuno blot",
+                            "LAMP",
+                            "Reverse Transcriptase PCR",
+                            "PCR",
+                            "Sanger sequencing",
+                            "NGS",
+                            "Bioassay",
+                            "Electron microscopy"
+                        ]
+                    }
+                },
+                "gmo": {
+                    "description": "Specifies whether the isolate is a Genetically Modified Virus",
+                    "type": "string",
+                    "enum": [
+                        "Yes",
+                        "No"
+                    ]
+                },
+                "gmo_information": {
+                    "description": "Information on modifications ",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^(?! ).+$"
+                },
+                "mutant_information": {
+                    "description": "Information on mutant isolate",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^(?! ).+$"
+                },
+                "gene_sequences_and_accession_numbers": {
+                    "description": " GenBank accession number(s), or sequences in case Acc. No. is not present",
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "pattern": "^(?! ).+$"
+                    }
+                },
+                "isolation_host": {
+                    "description": "The name of the host where the virus was isolated from, can be any living organism or microorganism",
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "pattern": "^(?! ).+$"
+                    }
+                },
+                "cultivar": {
+                    "description": "Cultivar, in case of plant host",
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "pattern": "^(?! ).+$"
+                    }
+                },
+                "geographic_origin": {
+                    "description": "The locality where the sample was collected",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^(?! ).+$"
+                },
+                "geographic_origin_coordinates": {
+                    "description": "The geographic coordinates where the sample was collected",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^(?! ).+$"
+                },
+                "country": {
+                    "description": "This information must be expressed by using the ISO-3166 standard for country codes. The preferred set is ISO 3166-1 alpha-2 (two letters code), but ISO 3166-1 alpha-3 (three letters code) is also accepted. Former country codes must follow standard’s part three ISO 3166-3 (four letters code). Only one code can be included.",
+                    "type": "string",
+                    "pattern": "^(?! ).+$"
+                },
+                "isolate_literature": {
+                    "description": "Includes the literature where the isolate has been described, listed, used. Preferably DOI and/or PMID, alternatively the citation (authors, title, journal, volume, issue, pages, editors, publishers).",
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "pattern": "^(?! ).+$"
+                    }
+                },
+                "collected_by_isolated_by": {
+                    "description": "Name, institute and town / country of the collector-isolator",
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "pattern": "^(?! ).+$"
+                    }
+                },
+                "date_of_collection": {
+                    "description": "Date when the sample was collected",
+                    "type": "string",
+                    "pattern": "^(?! ).+$"
+                },
+                "isolated_by": {
+                    "description": "...",
+                    "type": "string",
+                    "pattern": "^(?! ).+$"
+                },
+                "date_of_inclusion_in_the_catalogue": {
+                    "description": "Date when the sample was included in CC",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^(?! ).+$"
+                },
+                "depositor": {
+                    "description": "Name, institute and town/country of the depositor",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^(?! ).+$"
+                },
+                "date_of_deposit": {
+                    "description": "Date when the isolate was deposited at the CC",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^(?! ).+$"
+                },
+                "pathogenicity": {
+                    "description": "Specifies if the isolate is pathogen or not. If it is pathogen, this field also specifies for which organisms it is pathogen among humans, animals, plants, bacteria, fungi or other organisms",
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "Pathogen for Humans",
+                            "Pathogen for Animals",
+                            "Pathogen for Plants",
+                            "Pathogen for Bacteria",
+                            "Pathogen for Fungi",
+                            "Pathogen for other organisms",
+                            "Not pathogen"
+                        ]
+                    }
+                },
+                "symptomatology_on_isolation_host": {
+                    "description": "Symptoms caused by virus infection on isolation host",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^(?! ).+$"
+                },
+                "transmission_by": {
+                    "description": "The way or the vector by which the virus moves to a new host in nature",
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "contact",
+                            "insect",
+                            "grafting",
+                            "nematodes",
+                            "fungi",
+                            "air",
+                            "pollen",
+                            "sexual transmission",
+                            "food",
+                            "other"
+                        ]
+                    }
+                },
+                "infectivity_tested": {
+                    "description": "Specifies if the infectivity of the isolate has been tested",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "enum": [
+                                "Yes",
+                                "No"
+                            ]
+                        }
+                    ]
+                },
+                "contamination": {
+                    "description": "Specifies if the material is containing other viruses (=mixed infection) or if it is in pure culture. In the case of plant viruses, mitochondrial viruses or cryptic viruses are not considered as contaminants.",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "enum": [
+                                "Yes",
+                                "No"
+                            ]
+                        }
+                    ]
+                },
+                "lytic_cicle": {
+                    "description": "Specifies if the virus replicates through the lytic cycle (sometimes referred to as virulent infection)",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "enum": [
+                                "Yes",
+                                "No"
+                            ]
+                        }
+                    ]
+                },
+                "genome_integration": {
+                    "description": "Specifies if the virus/phage is integrated in the host genome",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "enum": [
+                                "Yes",
+                                "No"
+                            ]
+                        }
+                    ]
+                },
+                "remarks": {
+                    "description": "Any further note that is not present in the other fields",
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "pattern": "^(?! ).+$"
+                    }
+                }
+            }
+        }
     }
-  }
 }
