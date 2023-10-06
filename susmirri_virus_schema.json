@@ -168,19 +168,21 @@
                 },
                 "restrictions_on_use": {
                     "description": "One of the following values: 1 (no restrictions apply), 2 (for research use only), 3 (for commercial development a special agreement is requested).",
-                    "type": [
-                        "integer"
-                    ],
-                    "minimum": 1,
-                    "maximum": 3
+                    "type": "string",
+                    "enum": [
+                        "1",
+                        "2",
+                        "3"
+                    ]
                 },
                 "nagoya_protocol": {
                     "description": "One of the following: 1 ('No known restrictions under the Nagoya protocol'), 2 ('Documents providing proof of legal access and terms of use available at the collection'), 3 ('Strain probably in scope, please contact the Culture Collection').",
-                    "type": [
-                        "integer"
-                    ],
-                    "minimum": 1,
-                    "maximum": 3
+                    "type": "string",
+                    "enum": [
+                        "1",
+                        "2",
+                        "3"
+                    ]
                 },
                 "strain_from_a_registered_collection": {
                     "description": "Strain included in the registered CC according to the EU Regulation 511/2014",
@@ -199,11 +201,13 @@
                 },
                 "risk_group": {
                     "description": "Risk group according to EU Directive 2000/54/EC and its amendments and corrections.",
-                    "type": [
-                        "integer"
-                    ],
-                    "minimum": 1,
-                    "maximum": 4
+                    "type": "string",
+                    "enum": [
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                    ]
                 },
                 "quarantine_in_european_union": {
                     "description": "Specify whether the virus is subject to quarantine according to European Directive 2000/29/CE and its amendments and corrections. The list of quarantine organisms is available in the Commission Implementing Regulation (EU) 2019/2072.",
