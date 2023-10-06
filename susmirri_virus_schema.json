@@ -194,7 +194,8 @@
                             "type": "string",
                             "enum": [
                                 "Yes",
-                                "No"
+                                "No",
+                                ""
                             ]
                         }
                     ]
