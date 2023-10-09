@@ -437,19 +437,8 @@
                 },
                 "date_of_collection": {
                     "description": "Date when the sample was collected",
-                    "oneOf": [
-                        {
-                            "type": "null"
-                        },
-                        {
-                            "type": "string",
-                            "format": "date"
-                        },
-                        {
-                            "type": "string",
-                            "maxLength": 0
-                        }
-                    ]
+                    "type": "string",
+                    "format": "date"
                 },
                 "isolated_by": {
                     "description": "Name, institute and town/country of the isolator.",
