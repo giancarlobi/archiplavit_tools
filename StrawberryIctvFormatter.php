@@ -133,7 +133,7 @@ class StrawberryIctvFormatter extends StrawberryBaseFormatter {
         return $elements[$delta] = ['#markup' => $this->t('ERROR')];
       }
 
-        if (isset($jsondata[$key_species])) {
+        if ((isset($jsondata[$key_species])) AND ($jsondata[$key_species] > 0)) {
                 //$ictv_json_url = $jsondata[$key_species];
                 //$ictv_id = substr($ictv_json_url, -9);
                 $ictv_id = $jsondata[$key_species];
