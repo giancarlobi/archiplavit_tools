@@ -94,7 +94,7 @@
                 "accession_number": {
                     "description": "Collection accession number.",
                     "type": "string",
-                    "pattern": "^[A-Za-z0-9/]+$"
+                    "pattern": "^[A-Za-z0-9/-]+$"
                 },
                 "link_to_other_sites": {
                     "description": "URLs of extended descriptions of the virus isolate in other information systems. May be used in particular for connecting to the EVA-GLOBAL portal.",
@@ -535,7 +535,7 @@
                             "sexual transmission",
                             "food",
                             "soil",
-                            "seeds",
+                            "seed",
                             "other"
                         ]
                     }
