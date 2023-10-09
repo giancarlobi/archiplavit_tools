@@ -394,7 +394,7 @@
                         "string",
                         "null"
                     ],
-                    "pattern": "^(?! )+$"
+                    "pattern": "^(?! ).*"
                 },
                 "geographic_origin_coordinates": {
                     "description": "The geographic coordinates where the sample was collected",
@@ -402,7 +402,7 @@
                         "string",
                         "null"
                     ],
-                    "pattern": "^(?! )+$"
+                    "pattern": "^(?! ).*"
                 },
                 "country": {
                     "description": "This information must be expressed by using the ISO-3166 standard for country codes. The preferred set is ISO 3166-1 alpha-2 (two letters code), but ISO 3166-1 alpha-3 (three letters code) is also accepted. Former country codes must follow standard’s part three ISO 3166-3 (four letters code). Only one code can be included.",
