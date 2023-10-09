@@ -437,8 +437,19 @@
                 },
                 "date_of_collection": {
                     "description": "Date when the sample was collected",
-                    "type": "string",
-                    "pattern": "^(?! ).+$"
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        {
+                            "type": "string",
+                            "maxLength": 0
+                        }
+                    ]
                 },
                 "isolated_by": {
                     "description": "Name, institute and town/country of the isolator.",
@@ -447,11 +458,19 @@
                 },
                 "date_of_inclusion_in_the_catalogue": {
                     "description": "Date when the sample was included in CC",
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "pattern": "^(?! )+$"
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        {
+                            "type": "string",
+                            "maxLength": 0
+                        }
+                    ]
                 },
                 "depositor": {
                     "description": "Name, institute and town/country of the depositor",
@@ -463,11 +482,19 @@
                 },
                 "date_of_deposit": {
                     "description": "Date when the isolate was deposited at the CC",
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "pattern": "^(?! )+$"
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        {
+                            "type": "string",
+                            "maxLength": 0
+                        }
+                    ]
                 },
                 "pathogenicity": {
                     "description": "Specifies if the isolate is pathogen or not. If it is pathogen, this field also specifies for which organisms it is pathogen among humans, animals, plants, bacteria, fungi or other organisms",
