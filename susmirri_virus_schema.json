@@ -512,7 +512,7 @@
                         "string",
                         "null"
                     ],
-                    "pattern": "^(?! )+$"
+                    "pattern": "^(?! ).*"
                 },
                 "transmission_by": {
                     "description": "The way or the vector by which the virus moves to a new host in nature",
@@ -534,6 +534,7 @@
                             "pollen",
                             "sexual transmission",
                             "food",
+                            "soil",
                             "other"
                         ]
                     }
