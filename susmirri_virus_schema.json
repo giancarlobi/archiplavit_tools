@@ -339,7 +339,7 @@
                         "string",
                         "null"
                     ],
-                    "pattern": "^(?! ).+$"
+                    "pattern": "^(?! )+$"
                 },
                 "mutant_information": {
                     "description": "Information on mutant isolate",
@@ -347,7 +347,7 @@
                         "string",
                         "null"
                     ],
-                    "pattern": "^(?! ).+$"
+                    "pattern": "^(?! )+$"
                 },
                 "gene_sequences_and_accession_numbers": {
                     "description": " GenBank accession number(s), or sequences in case Acc. No. is not present",
@@ -394,7 +394,7 @@
                         "string",
                         "null"
                     ],
-                    "pattern": "^(?! ).+$"
+                    "pattern": "^(?! )+$"
                 },
                 "geographic_origin_coordinates": {
                     "description": "The geographic coordinates where the sample was collected",
@@ -402,7 +402,7 @@
                         "string",
                         "null"
                     ],
-                    "pattern": "^(?! ).+$"
+                    "pattern": "^(?! )+$"
                 },
                 "country": {
                     "description": "This information must be expressed by using the ISO-3166 standard for country codes. The preferred set is ISO 3166-1 alpha-2 (two letters code), but ISO 3166-1 alpha-3 (three letters code) is also accepted. Former country codes must follow standard’s part three ISO 3166-3 (four letters code). Only one code can be included.",
@@ -451,7 +451,7 @@
                         "string",
                         "null"
                     ],
-                    "pattern": "^(?! ).+$"
+                    "pattern": "^(?! )+$"
                 },
                 "depositor": {
                     "description": "Name, institute and town/country of the depositor",
@@ -459,7 +459,7 @@
                         "string",
                         "null"
                     ],
-                    "pattern": "^(?! ).+$"
+                    "pattern": "^(?! )+$"
                 },
                 "date_of_deposit": {
                     "description": "Date when the isolate was deposited at the CC",
@@ -467,7 +467,7 @@
                         "string",
                         "null"
                     ],
-                    "pattern": "^(?! ).+$"
+                    "pattern": "^(?! )+$"
                 },
                 "pathogenicity": {
                     "description": "Specifies if the isolate is pathogen or not. If it is pathogen, this field also specifies for which organisms it is pathogen among humans, animals, plants, bacteria, fungi or other organisms",
@@ -496,7 +496,7 @@
                         "string",
                         "null"
                     ],
-                    "pattern": "^(?! ).+$"
+                    "pattern": "^(?! )+$"
                 },
                 "transmission_by": {
                     "description": "The way or the vector by which the virus moves to a new host in nature",
@@ -532,7 +532,8 @@
                             "type": "string",
                             "enum": [
                                 "Yes",
-                                "No"
+                                "No",
+                                ""
                             ]
                         }
                     ]
@@ -547,7 +548,8 @@
                             "type": "string",
                             "enum": [
                                 "Yes",
-                                "No"
+                                "No",
+                                ""
                             ]
                         }
                     ]
@@ -562,7 +564,8 @@
                             "type": "string",
                             "enum": [
                                 "Yes",
-                                "No"
+                                "No",
+                                ""
                             ]
                         }
                     ]
@@ -577,7 +580,8 @@
                             "type": "string",
                             "enum": [
                                 "Yes",
-                                "No"
+                                "No",
+                                ""
                             ]
                         }
                     ]
