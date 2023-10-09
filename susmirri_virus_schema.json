@@ -407,7 +407,7 @@
                 "country": {
                     "description": "This information must be expressed by using the ISO-3166 standard for country codes. The preferred set is ISO 3166-1 alpha-2 (two letters code), but ISO 3166-1 alpha-3 (three letters code) is also accepted. Former country codes must follow standard’s part three ISO 3166-3 (four letters code). Only one code can be included.",
                     "type": "string",
-                    "pattern": "^(?! ).+$"
+                    "pattern": "^(?! ).*"
                 },
                 "isolate_literature": {
                     "description": "Includes the literature where the isolate has been described, listed, used. Preferably DOI and/or PMID, alternatively the citation (authors, title, journal, volume, issue, pages, editors, publishers).",
@@ -534,8 +534,7 @@
                             "pollen",
                             "sexual transmission",
                             "food",
-                            "soil",
-                            "seed",
+                            "seeds",
                             "other"
                         ]
                     }
